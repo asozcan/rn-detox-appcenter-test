@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 if [ -z "$APP_CENTER_CURRENT_PLATFORM" ]
 then
     echo "You need define the APP_CENTER_CURRENT_PLATFORM variable in App Center with values android or ios"
@@ -8,23 +7,24 @@ fi
 
 if [ "$APP_CENTER_CURRENT_PLATFORM" == "android" ]
 then
-    echo "Setup Android simulator"
-    SIMULATOR_IMAGE="system-images;android-28;google_apis;x86"
-    SIMULATOR_NAME="Pixel_XL_API_28"
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home
+    export ANDROID_SDK_ROOT=~/Library/Android/sdk
 
     ANDROID_HOME=~/Library/Android/sdk
     ANDROID_SDK_ROOT=~/Library/Android/sdk
     ANDROID_AVD_HOME=~/.android/avd
     PATH="$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 
-    echo "Accepts all sdk licences"
-    yes | sdkmanager --licenses
+    echo "Android: Downloading android image..."
+    /Users/runner/Library/Android/sdk/tools/bin/sdkmanager "system-images;android-27;default;x86_64"
 
-    echo "Download Simulator Image"
-    sdkmanager --install "$SIMULATOR_IMAGE"
+    echo "Android: Accepting licenses for android images.."
+    echo N | /Users/runner/Library/Android/sdk/tools/bin/sdkmanager --licenses
+    touch /Users/runner/.android/repositories.cfg
 
-    echo "Create Simulator '$SIMULATOR_NAME' with image '$SIMULATOR_IMAGE'"
-    echo "no" | avdmanager --verbose create avd --force --name "$SIMULATOR_NAME" --device "pixel" --package "$SIMULATOR_IMAGE" --tag "google_apis" --abi "x86"
+    echo "Android: Creating AVD.."
+    echo no | /Users/runner/Library/Android/sdk/tools/bin/avdmanager create avd -n Pixel_API_27_AOSP -d pixel --package "system-images;android-27;default;x86_64"
+    cp app-center/config.ini /Users/runner/.android/avd/Pixel_API_27_AOSP.avd/config.ini
 
     DETOX_CONFIG=android.emu.release
 else
@@ -39,7 +39,6 @@ else
 
     DETOX_CONFIG=ios.sim.release
 fi
-
 
 echo "Building the project for Detox tests..."
 npx detox build --configuration "$DETOX_CONFIG"
