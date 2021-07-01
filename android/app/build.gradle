@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply from: '../rninfo.gradle'
 
 //project.ext.react = [:]
 project.ext.react = [
@@ -12,7 +11,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId 'com.detox.rn.example'
+        applicationId 'com.example'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -60,12 +59,8 @@ android {
 }
 
 dependencies {
-    if (rnInfo.isRN60OrHigher) {
-        implementation 'androidx.appcompat:appcompat:1.1.0'
-        implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-    } else {
-        implementation 'com.android.support:appcompat-v7:28.0.0'
-    }
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 
     /*
      BINTRAY_SUNSET_HACK start
@@ -83,26 +78,20 @@ dependencies {
      BINTRAY_SUNSET_HACK end
      */
 
-    implementation(project(path: ':AsyncStorage')) // Note: not required unless effectively used by your app
-
     // noinspection GradleDynamicVersion
     androidTestImplementation 'com.wix:detox:+'
     androidTestImplementation 'com.linkedin.testbutler:test-butler-library:2.2.1'
 }
 
-if (rnInfo.isRN60OrHigher) {
-    // refs: https://react-native-community.github.io/upgrade-helper/?from=0.59.9&to=0.60.6
-    //       https://react-native-community.github.io/upgrade-helper/?from=0.60.6&to=0.61.4
-    dependencies {
-        def enableHermes = project.ext.react.get('enableHermes', false)
-        if (enableHermes) {
-            def hermesModuleName = rnInfo.isRN61OrHigher ? 'hermes-engine' : 'hermesvm'
-            def hermesPath = "../../node_modules/$hermesModuleName/android/"
-            debugImplementation files(hermesPath + 'hermes-debug.aar')
-            releaseImplementation files(hermesPath + 'hermes-release.aar')
-        } else {
-            implementation 'org.webkit:android-jsc:+'
-        }
+dependencies {
+    def enableHermes = project.ext.react.get('enableHermes', false)
+    if (enableHermes) {
+        def hermesModuleName = 'hermes-engine'
+        def hermesPath = "../../node_modules/$hermesModuleName/android/"
+        debugImplementation files(hermesPath + 'hermes-debug.aar')
+        releaseImplementation files(hermesPath + 'hermes-release.aar')
+    } else {
+        implementation 'org.webkit:android-jsc:+'
     }
 }
 
