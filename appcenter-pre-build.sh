@@ -7,7 +7,6 @@ fi
 
 if [ "$APP_CENTER_CURRENT_PLATFORM" == "android" ]
 then
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home
     export ANDROID_SDK_ROOT=~/Library/Android/sdk
 
     ANDROID_HOME=~/Library/Android/sdk
