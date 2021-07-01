@@ -1,6 +1,7 @@
 > detox
 
 # React Native Demo Project
+[![Build status](https://build.appcenter.ms/v0.1/apps/cd0aad07-4aa4-4cc5-819f-a97bb5af6756/branches/main/badge)](https://appcenter.ms)
 
 ## Requirements
 
