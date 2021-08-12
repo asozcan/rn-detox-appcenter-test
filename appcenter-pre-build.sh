@@ -20,21 +20,14 @@ function _catch {
     # Content of the Email on Build-Failure.
     FAILURE_BODY="Sorry! Your AppCenter Build failed. Please review the logs and try again.\n\n"
     #If Agent Job Build Status is successful, Send the email, if not send a failure email.
-    if [ "$AGENT_JOBSTATUS" == "Succeeded" ];
-    then
-        echo "e2e Tests Success!"
-        echo -e ${SUCCESS_BODY} ${build_url} | mailx -s "${SUBJECT} - Success!" ${TO_ADDRESS}
-        echo "success mail sent"
-    else
-        echo "e2e Tests Failed!"
-        echo -e ${FAILURE_BODY} ${build_url} | mailx -s "${SUBJECT} - Failed!" ${TO_ADDRESS} < /reports/html/results.html
-        echo "failure mail sent"
-    fi
+    echo "e2e Tests Failed!"
+    echo -e ${FAILURE_BODY} ${build_url} | mailx -s "${SUBJECT} - From Mailx Failed!" ${TO_ADDRESS} < /reports/html/results.html
+    echo "failure mail sent"
     exit 0
 }
 
 function _finally {
-  echo "Block C runs"
+  #echo "Block C runs"
 }
 trap _catch ERR
 trap _finally EXIT
