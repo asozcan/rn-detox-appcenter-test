@@ -19,5 +19,6 @@
   "include": [
     "e2e/**/*.ts",
     "e2eExplicitRequire/**/*.ts"
-  ]
+  ],
+  "exclude": ["node_modules","metro.config.js", "jest.config.js"]
 }

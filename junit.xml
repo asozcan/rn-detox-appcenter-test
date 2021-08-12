@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="1" errors="0" time="65.341">
+  <testsuite name="Example" errors="0" failures="1" skipped="0" timestamp="2021-08-12T16:07:49" time="65.123" tests="3">
+    <testcase classname="Example should have welcome screen" name="Example should have welcome screen" time="18.973">
+    </testcase>
+    <testcase classname="Example should show hello screen after tap" name="Example should show hello screen after tap" time="1.021">
+    </testcase>
+    <testcase classname="Example should show world screen after tap" name="Example should show world screen after tap" time="10.77">
+      <failure>Error: Test Failed: &apos;at least 75 percent of the view&apos;s area is displayed to the user.&apos; doesn&apos;t match the selected view.
+Expected: at least 75 percent of the view&apos;s area is displayed to the user.
+     Got: null
+    at Object.&lt;anonymous&gt; (/Users/andacozcan/Documents/GitHub/rn-detox-appcenter-test/e2e/tests/example.e2e.js:21:49)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

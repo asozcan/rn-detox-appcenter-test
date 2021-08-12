@@ -1,10 +1,9 @@
 {
-    "require": ["ts-node/register"],
-    "recursive": true,
-    "timeout": 300000,
-    "bail": true,
-    "file": "e2e/init.ts",
-    "extension": ["ts"],
+    "testEnvironment": "./environment",
+    "testRunner": "jest-circus/runner",
+    "testTimeout": 300000,
+    "testRegex": "(\\.e2e\\.js$)",
+    "verbose": true,
     "reporters": [
         "default",
         "jest-junit",

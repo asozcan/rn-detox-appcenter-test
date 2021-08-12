@@ -1,11 +1,11 @@
-module.exports = {
-  "test-runner": "mocha",
-  "runner-config": "e2e/.mocharc.json",
-  "specs": process.env.DETOX_EXPOSE_GLOBALS === '0' ? 'e2eExplicitRequire' : 'e2e',
+{
+  "test-runner": "jest",
+  "runner-config": "e2e/detox-config.json",
+  "specs": "e2e",
   "behavior": {
     "init": {
-      "exposeGlobals": process.env.DETOX_EXPOSE_GLOBALS === '0' ? false : true,
-    },
+      "exposeGlobals": true
+    }
   },
   "apps": {
     "ios.release": {
@@ -68,4 +68,4 @@ module.exports = {
       "app": "android.release"
     }
   }
-};
+}
