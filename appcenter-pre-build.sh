@@ -16,7 +16,7 @@ function _catch {
     # This is to get the Build Details so we could pass it as part of the Email Body
     build_url=https://appcenter.ms/users/$USER/apps/$APP/build/branches/$APPCENTER_BRANCH/builds/$APPCENTER_BUILD_ID
     # Address to send email
-    TO_ADDRESS="andacsayginozcan@gmail.com,andac-ozcan@yopmail.com"
+    TO_ADDRESS="andacsayginozcan@gmail.com andac-ozcan@yopmail.com"
     # A sample Subject Title
     SUBJECT="AppCenter Influenster e2e Tests have fails!"
     #If Agent Job Build Status is successful, Send the email, if not send a failure email.
@@ -48,7 +48,6 @@ then
     echo "Android: Accepting licenses for android images.."
     echo N | $ANDROID_HOME/tools/bin/sdkmanager --licenses --sdk_root=${ANDROID_SDK_ROOT}
     echo $ANDROID_HOME/tools/bin/sdkmanager --update
-    touch /Users/runner/.android/repositories.cfg
 
     echo "Android: Creating AVD.."
     echo no | /Users/runner/Library/Android/sdk/tools/bin/avdmanager create avd -n Pixel_API_27_AOSP -d pixel --package "system-images;android-27;default;x86_64"
