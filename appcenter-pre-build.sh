@@ -8,21 +8,19 @@ fi
 set -Ee
 function _catch {
     USER=asozcan2
-    APP=Detox-Test-Android
+    APP=Detox-Test-ios
+    PLATFORM=android
+    if [ "$PLATFORM" == "android" ]; then APP=Detox-Test-Android
     # This is to get the Build Details so we could pass it as part of the Email Body
     build_url=https://appcenter.ms/users/$USER/apps/$APP/build/branches/$APPCENTER_BRANCH/builds/$APPCENTER_BUILD_ID
     # Address to send email
-    TO_ADDRESS="andacsayginozcan@gmail.com"
+    TO_ADDRESS="andacsayginozcan@gmail.com,andac-ozcan@yopmail.com"
     # A sample Subject Title
-    SUBJECT="AppCenter Build"
-    # Content of the Email on Build-Success.
-    SUCCESS_BODY="Success! Your build completed successfully!\n\n"
-    # Content of the Email on Build-Failure.
-    FAILURE_BODY="Sorry! Your AppCenter Build failed. Please review the logs and try again.\n\n"
+    SUBJECT="AppCenter Influenster e2e Tests have fails!"
     #If Agent Job Build Status is successful, Send the email, if not send a failure email.
-    echo "e2e Tests Failed!"
+    echo "e2e Tests have fails!"
     uuencode ./reports/html/results.html test-results.html > tempfile
-    cat tempfile | mail -s "${SUBJECT} - From Mailx Failed!" ${TO_ADDRESS}
+    cat tempfile | mail -s "${SUBJECT}" ${TO_ADDRESS} -r asozcan@yandex.com
     echo "failure mail sent"
     exit 0
 }
