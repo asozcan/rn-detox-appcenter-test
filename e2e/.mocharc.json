@@ -4,5 +4,16 @@
     "timeout": 300000,
     "bail": true,
     "file": "e2e/init.ts",
-    "extension": ["ts"]
+    "extension": ["ts"],
+    "reporters": [
+        "default",
+        "jest-junit",
+        [
+            "../node_modules/jest-html-reporter",
+            {
+                "pageTitle": "Test Report",
+                "outputPath": "reports/html/results.html"
+            }
+        ]
+    ]
 }
