@@ -26,11 +26,11 @@ function _catch {
     exit 0
 }
 
-function _finally {
-  #echo "Block C runs"
-}
+#function _finally {
+#  echo "Block C runs"
+#}
 trap _catch ERR
-trap _finally EXIT
+#trap _finally EXIT
 
 if [ "$APP_CENTER_CURRENT_PLATFORM" == "android" ]
 then
