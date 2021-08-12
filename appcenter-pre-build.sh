@@ -12,7 +12,7 @@ function _catch {
     # This is to get the Build Details so we could pass it as part of the Email Body
     build_url=https://appcenter.ms/users/$USER/apps/$APP/build/branches/$APPCENTER_BRANCH/builds/$APPCENTER_BUILD_ID
     # Address to send email
-    TO_ADDRESS="asozcan@yandex.com"
+    TO_ADDRESS="andacsayginozcan@gmail.com"
     # A sample Subject Title
     SUBJECT="AppCenter Build"
     # Content of the Email on Build-Success.
@@ -22,7 +22,7 @@ function _catch {
     #If Agent Job Build Status is successful, Send the email, if not send a failure email.
     echo "e2e Tests Failed!"
     uuencode ./reports/html/results.html test-results.html > tempfile
-    cat tempfile | mailx -s "${SUBJECT} - From Mailx Failed!" ${TO_ADDRESS}
+    cat tempfile | mail -s "${SUBJECT} - From Mailx Failed!" ${TO_ADDRESS}
     echo "failure mail sent"
     exit 0
 }
