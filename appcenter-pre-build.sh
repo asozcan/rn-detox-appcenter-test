@@ -23,11 +23,11 @@ function _catch {
     if [ "$AGENT_JOBSTATUS" == "Succeeded" ];
     then
         echo "e2e Tests Success!"
-        echo -e ${SUCCESS_BODY} ${build_url} | mailx -a /reports/html/results.html -s "${SUBJECT} - Success!" ${TO_ADDRESS}
+        echo -e ${SUCCESS_BODY} ${build_url} | mailx -s "${SUBJECT} - Success!" ${TO_ADDRESS} </reports/html/results.html
         echo "success mail sent"
     else
         echo "e2e Tests Failed!"
-        echo -e ${FAILURE_BODY} ${build_url} | mailx -a /reports/html/results.html -s "${SUBJECT} - Failed!" ${TO_ADDRESS}
+        echo -e ${FAILURE_BODY} ${build_url} | mailx -s "${SUBJECT} - Failed!" ${TO_ADDRESS} </reports/html/results.html
         echo "failure mail sent"
     fi
 }
