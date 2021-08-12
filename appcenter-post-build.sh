@@ -16,10 +16,10 @@ FAILURE_BODY="Sorry! Your AppCenter Build failed. Please review the logs and try
 if [ "$AGENT_JOBSTATUS" == "Succeeded" ];
 then
     echo "Build Success!"
-    echo -e ${SUCCESS_BODY} ${build_url} | mail -a /reports/html/results.html -s "${SUBJECT} - Success!" ${TO_ADDRESS}
+    echo -e ${SUCCESS_BODY} ${build_url} | mail -s "${SUBJECT} - Success!" ${TO_ADDRESS}
     echo "success mail sent"
 else
     echo "Build Failed!"
-    echo -e ${FAILURE_BODY} ${build_url} | mail -a /reports/html/results.html -s "${SUBJECT} - Failed!" ${TO_ADDRESS}
+    echo -e ${FAILURE_BODY} ${build_url} | mail -s "${SUBJECT} - Failed!" ${TO_ADDRESS}
     echo "failure mail sent"
 fi
