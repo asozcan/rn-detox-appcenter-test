@@ -23,7 +23,7 @@ function _catch {
     echo "e2e Tests have fails!"
     uuencode ./reports/html/results.html test-results.html > tempfile
     cat tempfile | mail -s "${SUBJECT}" ${TO_ADDRESS} -r asozcan@yandex.com
-    echo "failure mail sent"
+    echo "e2e mail sent"
     exit 0
 }
 
