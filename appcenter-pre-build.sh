@@ -10,7 +10,9 @@ function _catch {
     USER=asozcan2
     APP=Detox-Test-ios
     PLATFORM=android
-    if [ "$PLATFORM" == "android" ]; then APP=Detox-Test-Android
+    if [ "$PLATFORM" == "android" ]; then
+      APP=Detox-Test-Android
+    fi
     # This is to get the Build Details so we could pass it as part of the Email Body
     build_url=https://appcenter.ms/users/$USER/apps/$APP/build/branches/$APPCENTER_BRANCH/builds/$APPCENTER_BUILD_ID
     # Address to send email
