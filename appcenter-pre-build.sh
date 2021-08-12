@@ -52,7 +52,7 @@ then
     /Users/runner/Library/Android/sdk/tools/bin/sdkmanager "system-images;android-27;default;x86_64"
 
     echo "Android: Accepting licenses for android images.."
-    echo N | /Users/runner/Library/Android/sdk/tools/bin/sdkmanager --licenses
+    echo yes | /Users/runner/Library/Android/sdk/tools/bin/sdkmanager --licenses || true
     touch /Users/runner/.android/repositories.cfg
 
     echo "Android: Creating AVD.."
