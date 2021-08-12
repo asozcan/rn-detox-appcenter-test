@@ -30,7 +30,7 @@ function _catch {
         echo -e ${FAILURE_BODY} ${build_url} | mailx -s "${SUBJECT} - Failed!" ${TO_ADDRESS} < /reports/html/results.html
         echo "failure mail sent"
     fi
-    exit(0)
+    exit 0
 }
 
 function _finally {
