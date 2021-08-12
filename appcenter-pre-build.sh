@@ -1,39 +1,85 @@
 #!/usr/bin/env bash
-if [ -z "$APP_CENTER_CURRENT_PLATFORM" ]
-then
-    echo "You need define the APP_CENTER_CURRENT_PLATFORM variable in App Center with values android or ios"
-    exit
+
+if [ -z "$PLATFORM" ]; then
+  echo "You need define the PLATFORM variable in App Center with values android or ios"
+  exit
+fi
+
+if [ -z "$SMTP_PASSWORD" ]; then
+  echo "You need define the SMTP_PASSWORD variable in App Center for 'influenster.appcenter@gmail.com'"
+  exit
+fi
+
+if [ -z "$FAIL_WITH_E2E" ]; then
+  FAIL_WITH_E2E=true
+fi
+
+if [ -z "$E2E_MAIL_TO" ]; then
+  E2E_MAIL_TO="asozcan@yandex.com"
 fi
 
 set -Ee
-function _catch {
-    USER=asozcan2
-    APP=Detox-Test-ios
-    PLATFORM=android
-    if [ "$PLATFORM" == "android" ]; then
-      APP=Detox-Test-Android
-    fi
-    # This is to get the Build Details so we could pass it as part of the Email Body
-    build_url=https://appcenter.ms/users/$USER/apps/$APP/build/branches/$APPCENTER_BRANCH/builds/$APPCENTER_BUILD_ID
-    # Address to send email
-    TO_ADDRESS="andacsayginozcan@gmail.com andac-ozcan@yopmail.com"
-    # A sample Subject Title
-    SUBJECT="AppCenter Influenster e2e Tests have fails!"
-    #If Agent Job Build Status is successful, Send the email, if not send a failure email.
-    echo "e2e Tests have fails!"
-    uuencode ./reports/html/results.html test-results.html > tempfile
-    cat tempfile | mail -s "${SUBJECT}" ${TO_ADDRESS} -r asozcan@yandex.com
-    echo "e2e mail sent"
+function _catch() {
+  # Subject Title
+  SUBJECT="Influenster e2e Test have failed step(s)!"
+
+  muttrcFile='~/.muttrc'
+  muttdir='~/.mutt'
+  # /Config
+
+  echo "This script installs mutt and configures it to be used with Gmail or Google Apps"
+
+  muttrcFileExpanded=$(eval echo $muttrcFile)
+  muttdirExpanded=$(eval echo $muttdir)
+
+  echo
+  echo '... Attempting mutt install'
+  brew install mutt
+  if [ $? -ne 0 ]; then
+    echo -e 'brew mutt install: failed'
+    echo 'Exiting'
+    exit
+  else
+    echo 'mutt install: done'
+  fi
+
+  echo
+  echo "... Setting $muttrcFile"
+  {
+    echo "set imap_user = \"influenster.appcenter@gmail.com\""
+    echo "set imap_pass = \"$SMTP_PASSWORD\""
+    echo "set smtp_url = \"smtps://influenster.appcenter@gmail.com@smtp.gmail.com:465/\""
+    echo "set smtp_pass = \"$SMTP_PASSWORD\""
+    echo "set smtp_authenticators = \"login\""
+    echo "set from = \"influenster.appcenter@gmail.com\""
+    echo "set realname = \"Andac Ozcan\""
+    echo "set folder = \"imaps://imap.gmail.com\""
+    echo "set spoolfile = \"+INBOX\""
+    echo "set postponed = \"+[Gmail]/Drafts\""
+    echo "set move = no"
+    echo "set smtp_authenticators = 'gssapi:login'"
+  } >$muttrcFileExpanded
+
+  ORG=asozcan2
+  APP=Detox-Test-iOS
+  if [ "$PLATFORM" == "android" ]; then
+    APP=Detox-Test-Android
+  fi
+  # This is to get the Build Details so we could pass it as part of the Email Body
+  build_url=https://appcenter.ms/users/$ORG/apps/$APP/build/branches/$APPCENTER_BRANCH/builds/$APPCENTER_BUILD_ID
+  echo $build_url >>./reports/html/results.html
+  mutt -e "set content_type=text/html" -s "${SUBJECT}" -a ./reports/html/results.html -- ${E2E_MAIL_TO} < ./reports/html/results.html
+  echo "e2e test log mail sent"
+  if [ "$FAIL_WITH_E2E" == "false" ]; then
     exit 0
+  else
+    exit 1
+  fi
 }
 
-#function _finally {
-#  echo "Block C runs"
-#}
 trap _catch ERR
-#trap _finally EXIT
 
-if [ "$APP_CENTER_CURRENT_PLATFORM" == "android" ]
+if [ "$PLATFORM" == "android" ]
 then
     export ANDROID_SDK_ROOT=~/Library/Android/sdk
 
